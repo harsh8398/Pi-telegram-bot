@@ -1,0 +1,5 @@
+certifi==2017.11.5
+future==0.16.0
+python-telegram-bot==8.1.1
+urbandictionary==1.1
+wincertstore==0.2
