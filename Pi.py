@@ -4,16 +4,17 @@
 """
 """
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from telegram.ext import CallbackQueryHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler
 import urbandictionary as ud
+import chucknorris as cn
 import random
 import logging
 import auth_token
+from const import START_TEXT, HELP_TEXT
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+logging.basicConfig(format='%(asctime)s - %(name)s\
+                    - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
@@ -23,82 +24,42 @@ logger = logging.getLogger(__name__)
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
     """Send a message when the command /start is issued."""
-    keyboard = [[InlineKeyboardButton("/help", callback_data='help')],
-                [InlineKeyboardButton("/slangme", callback_data='slangme')]]
-
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
-    update.message.reply_text("You can send '/stop' anytime to stop the me.")
+    update.message.reply_text(START_TEXT)
 
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
-def echo(bot, update):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
+    update.message.reply_text(HELP_TEXT)
 
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
 
-def throw_slang(bot, update):
+
+def throw_slang(bot, update, args):
     """Throws random slang from urban dictionary"""
-    random_slangs = ud.random()
-    slang = random.choice(random_slangs)
+    if len(args) != 0:
+        slang_name = str(" ".join(args))
+        slang = ud.define(slang_name)[0]
+    else:
+        random_slangs = ud.random()
+        slang = random.choice(random_slangs)
     update.message.reply_text(slang.word + "\n" + slang.definition + "\n")
 
-def inline_keyboard_response(bot, update):
-    query = update.callback_query
-    {
-        'help': help(bot, update),
-        'slangme': slangme(bot, update)
-    }[query.data]
 
-def reminder(bot, job):
-    """Send the alarm message."""
-    bot.send_message(job.context, text='Beep!')
-
-
-def set_reminder(bot, update, args, job_queue, chat_data):
-    """Add a job to the queue."""
-    chat_id = update.message.chat_id
-    try:
-        # args[0] should contain the time for the reminder in HH:MM,remindtext
-        data = args[0].split(",")
-        HH = int(data[0].split(":")[0])
-        MM = int(data[0].split(":")[1])
-        remind_text = str(data[1])
-
-        if HH < 0 or MM < 0:
-            update.message.reply_text('If only I had Time Machine!')
-            return
-
-        # Add job to queue
-        job = job_queue.run_once(reminder, (HH * 60 + MM) * 60, context=chat_id)
-        chat_data['job'] = job
-
-        update.message.reply_text('Reminder successfully set!')
-
-    except (IndexError, ValueError):
-        update.message.reply_text('Usage: /remind <HH>:<MM>,<reminder text>')
-
-
-def rmremind(bot, update, chat_data):
-    """Remove the job if the user changed their mind."""
-    if 'job' not in chat_data:
-        update.message.reply_text('You have no active reminder')
-        return
-
-    job = chat_data['job']
-    job.schedule_removal()
-    del chat_data['job']
-
-    update.message.reply_text('Reminder successfully unset!')
+def throw_joke(bot, update, args):
+    """Throws random joke from chuck norris database"""
+    if len(args) != 0:
+        fname = args[0]
+        if len(args) > 1:
+            lname = args[1]
+        else:
+            lname = ""
+        joke = cn.random(fname, lname).joke
+    else:
+        joke = cn.random().joke
+    update.message.reply_text(joke)
 
 
 def main():
@@ -111,19 +72,9 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
-    updater.dispatcher.add_handler(CallbackQueryHandler(inline_keyboard_response))
-
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("slangme", throw_slang))
-
-    dp.add_handler(CommandHandler("remind", set_reminder,
-                                  pass_args=True,
-                                  pass_job_queue=True,
-                                  pass_chat_data=True))
-    dp.add_handler(CommandHandler("rmremind", unset, pass_chat_data=True))
-
-    # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(CommandHandler("slangme", throw_slang, pass_args=True))
+    dp.add_handler(CommandHandler("laughat", throw_joke, pass_args=True))
 
     # log all errors
     dp.add_error_handler(error)
