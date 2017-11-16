@@ -1,18 +1,23 @@
-START_TEXT = """Hi! My name is Pi. My father calls me 3.14 ;).
-Here is a list of commands that I'm currently able to execute.
+START_TEXT = """Hi! My name is <b>Pi</b>. My senpai calls me 3.14 ;).
 
-/slangme <slang> - tells you a random slang if no slang's given
+--<i>Here is a list of commands that my senpai has taught me.</i>--
 
-/laughat <firstName> <lastName> - throw a joke at someone
+/slangme <i>[slang]</i>
+tells you a random slang if no slang's given
 
-You can send '/stop' anytime to stop the me.
+/praise <i>[first name]</i> <i>[last name]</i>
+throws a joke at someone
+
+<i>You can send</i> '/stop' <i>anytime to hurt me.</i>
 """
 
-HELP_TEXT = """Here is a list of commands that I'm currently able to execute.
+HELP_TEXT = """--<i>Here is a list of commands that my senpai has taught me.</i>--
 
-/slangme <slang> - tells you a random slang if no slang's given
+/slangme <i>[slang]</i>
+tells you a random slang if no slang's given
 
-/laughat <firstName> <lastName> - throw a joke at someone
+/praise <i>[first name]</i> <i>[last name]</i>
+throws a joke at someone
 
-You can send '/stop' anytime to stop the me.
+<i>You can send</i> '/stop' <i>anytime to hurt me.</i>
 """

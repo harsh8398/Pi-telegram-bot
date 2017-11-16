@@ -24,12 +24,12 @@ logger = logging.getLogger(__name__)
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
     """Send a message when the command /start is issued."""
-    update.message.reply_text(START_TEXT)
+    update.message.reply_text(START_TEXT, parse_mode='HTML')
 
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text(HELP_TEXT)
+    update.message.reply_text(HELP_TEXT, parse_mode='HTML')
 
 
 def error(bot, update, error):
@@ -45,10 +45,11 @@ def throw_slang(bot, update, args):
     else:
         random_slangs = ud.random()
         slang = random.choice(random_slangs)
-    update.message.reply_text(slang.word + "\n" + slang.definition + "\n")
+    update.message.reply_text(slang.word + "\n" + slang.definition + "\n",
+                              parse_mode='HTML')
 
 
-def throw_joke(bot, update, args):
+def throw_praise(bot, update, args):
     """Throws random joke from chuck norris database"""
     if len(args) != 0:
         fname = args[0]
@@ -59,7 +60,7 @@ def throw_joke(bot, update, args):
         joke = cn.random(fname, lname).joke
     else:
         joke = cn.random().joke
-    update.message.reply_text(joke)
+    update.message.reply_text(joke, parse_mode='HTML')
 
 
 def main():
@@ -74,7 +75,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("slangme", throw_slang, pass_args=True))
-    dp.add_handler(CommandHandler("laughat", throw_joke, pass_args=True))
+    dp.add_handler(CommandHandler("praise", throw_praise, pass_args=True))
 
     # log all errors
     dp.add_error_handler(error)
