@@ -21,3 +21,8 @@ throws a joke at someone
 
 <i>You can send</i> '/stop' <i>anytime to hurt me.</i>
 """
+
+CN_THUMB = 'https://drive.google.com/file/d/1oz5UqrJB5IIoN-ua8RJg40zjktWhW8GN/view?usp=sharing'
+CN_URL = 'http://www.icndb.com/api'
+UD_THUMB = 'https://drive.google.com/file/d/1Jcaxd3BG--Fwho8Kx_DGJL0AYXwXKcMa/view?usp=sharing'
+UD_URL = 'http://api.urbandictionary.com/v0/define?term=word'
