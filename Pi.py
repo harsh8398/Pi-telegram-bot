@@ -77,7 +77,7 @@ def throw_slang(bot, update, args):
 def throw_praise(bot, update, args):
     """Throws random joke from chuck norris database"""
     joke = _get_joke(args)
-    update.message.reply_text(joke, parse_mode='HTML')
+    update.message.reply_text(joke, parse_mode='HTML', quote=False)
 
 
 def inlinequery(bot, update):
@@ -107,7 +107,7 @@ def inlinequery(bot, update):
 def main():
     """Start the bot."""
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(os.environ['TELEGRAM_TOKEN'])
+    updater = Updater(os.environ['TELEGRAM_TOKEN_BETA'])
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
