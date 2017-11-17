@@ -12,10 +12,10 @@ from telegram import InlineQueryResultArticle, InputTextMessageContent
 import urbandictionary as ud
 import chucknorris as cn
 
+import os
 import random
 import logging
 
-import auth_token
 from const import START_TEXT, HELP_TEXT, CN_THUMB, UD_THUMB
 
 # Enable logging
@@ -108,7 +108,7 @@ def inlinequery(bot, update):
 def main():
     """Start the bot."""
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(auth_token.get_token())
+    updater = Updater(os.environ['TELEGRAM_TOKEN'])
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
