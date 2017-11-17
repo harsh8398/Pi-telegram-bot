@@ -65,7 +65,6 @@ def _get_joke(args):
         joke = cn.random(fname, lname).joke
     else:
         joke = cn.random().joke
-    logger.warning('%s %s', args, joke)
     return joke
 
 
