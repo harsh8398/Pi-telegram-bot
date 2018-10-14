@@ -107,7 +107,7 @@ def inlinequery(bot, update):
 def main():
     """Start the bot."""
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(os.environ['TELEGRAM_TOKEN'])
+    updater = Updater(os.environ['TELEGRAM_TOKEN_BETA'])
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
