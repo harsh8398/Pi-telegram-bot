@@ -46,9 +46,9 @@ def error(bot, update, error):
 def _get_slang(args):
     if len(args) != 0:
         slang_name = str(" ".join(args))
-        slang = ud.define(slang_name)[0]
+        slang = ud.define(slang_name, embedd_link=True)[0]
     else:
-        random_slangs = ud.random()
+        random_slangs = ud.random(embedd_link=True)
         slang = random.choice(random_slangs)
     return slang.word + "\n" + slang.definition + "\n"
 
