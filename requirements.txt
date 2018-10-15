@@ -1,5 +1,5 @@
 certifi
 future
 python-telegram-bot
-git+https://github.com/harsh8398/urbandictionary-py.git
+-e git+https://github.com/harsh8398/urbandictionary-py.git#egg=urbandictionary
 wincertstore
