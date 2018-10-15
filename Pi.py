@@ -106,8 +106,11 @@ def inlinequery(bot, update):
 
 def main():
     """Start the bot."""
+
+    TOKEN = os.environ['TELEGRAM_TOKEN_DEPLOY']
+    PORT = int(os.environ.get('PORT', '8443'))
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(os.environ['TELEGRAM_TOKEN_BETA'])
+    updater = Updater(TOKEN)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -124,7 +127,10 @@ def main():
     dp.add_error_handler(error)
 
     # Start the Bot
-    updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=TOKEN)
+    updater.bot.set_webhook("https://pi-telegram-bot.herokuapp.com/" + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
