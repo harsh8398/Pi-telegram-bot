@@ -18,8 +18,6 @@ You can install all the prerequisites by following command in project directory.
 pip install -r requirements
 ```
 
-urbandictionary is needed to be installed from this [link](https://github.com/harsh8398/urbandictionary-py). Official version won't work as its tweaked for this bot.
-
 ### Setting up environment
 
 To have bot running you need to set environment variable named 'TELEGRAM_TOKEN' (for master branch) or 'TELEGRAM_TOKEN_BETA' (for dev branch)
