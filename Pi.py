@@ -108,7 +108,16 @@ def main():
     """Start the bot."""
 
     TOKEN = os.environ['TELEGRAM_TOKEN_DEPLOY']
-    PORT = int(os.environ.get('PORT', '80'))
+    NAME = os.environ['HEROKU_APP_NAME']
+
+    # Port is given by Heroku
+    PORT = os.environ.get('PORT')
+
+    # Enable logging
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TOKEN)
 
@@ -126,15 +135,11 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
-    # Start the Bot
+    # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
-                          port=PORT,
+                          port=int(PORT),
                           url_path=TOKEN)
-    updater.bot.set_webhook("https://pi-telegram-bot.herokuapp.com/" + TOKEN)
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+    updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
     updater.idle()
 
 
