@@ -1,1 +1,1 @@
-web: python Pi.py
+web: gunicorn bot:Pi
