@@ -1,1 +1,1 @@
-web: python Pi.py
+bot: python Pi.py
