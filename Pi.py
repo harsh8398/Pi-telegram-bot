@@ -54,17 +54,11 @@ def _get_slang(args):
 
 
 def _get_joke(args):
-    if isinstance(args, str):
-        args = args.split(" ")
+    joke = cn.random().joke
+    if isinstance(args, list):
+        args = ' '.join(args)
     if len(args) != 0:
-        fname = args[0]
-        if len(args) > 1:
-            lname = args[1]
-        else:
-            lname = ""
-        joke = cn.random(fname, lname).joke
-    else:
-        joke = cn.random().joke
+        joke = joke.replace("Chuck Norris", args)
     return joke
 
 

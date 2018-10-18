@@ -21,8 +21,7 @@ class ChuckNorrisDefinition(object):
         return "%s" % (self.joke)
 
 
-def _get_chuckn_json(url, fname, lname):
-    url = url + "?firstName=%s&lastName=%s" % (fname, lname)
+def _get_chuckn_json(url):
     f = urlopen(url)
     data = json.loads(f.read().decode('utf-8'))
     f.close()
@@ -42,7 +41,7 @@ def _parse_chuckn_json(json, check_result=True):
     return d
 
 
-def random(fname='Chuck', lname='Norris'):
+def random():
     """Return random joke"""
-    json = _get_chuckn_json(CND_RANDOM_URL, fname, lname)
+    json = _get_chuckn_json(CND_RANDOM_URL)
     return _parse_chuckn_json(json, check_result=False)
